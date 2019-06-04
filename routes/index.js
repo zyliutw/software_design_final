@@ -1,4 +1,5 @@
 var express = require('express');
+var pool = require('../middleware/database.js')
 var router = express.Router();
 
 /* GET home page. */
