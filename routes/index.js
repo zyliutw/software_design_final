@@ -2,9 +2,15 @@ var express = require('express');
 var pool = require('../middleware/database.js')
 var router = express.Router();
 
-/* GET home page. */
+var path = require('path');
+var fs = require('fs')
+
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
+});
+
+router.get('/login', function (req, res, next) {
+  res.sendFile(path.join(__dirname, '../public/log_in.html'))
 });
 
 router.get('/information_page', function (req, res, next) {
