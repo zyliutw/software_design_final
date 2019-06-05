@@ -13,6 +13,17 @@ router.get('/login', function (req, res, next) {
   res.sendFile(path.join(__dirname, '../public/log_in.html'))
 });
 
+// user login
+router.post('/login', function(req, res){
+    if(req.body.username == 'admin' && req.body.pass == 'admin'){
+        //req.session.userName = req.body.username; // success session
+        res.redirect('/');
+    }
+    else{
+        res.json({ret_code : 1, ret_msg : '賬號或密碼錯誤'});// fail
+    }
+});
+
 router.get('/information_page', function (req, res, next) {
   res.json({ 'information': 'value' });
 })
