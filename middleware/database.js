@@ -1,29 +1,19 @@
-const util = require('util')
-const mysql = require('mysql')
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: '',
-    user: '',
-    password: '',
-    database: ''
-})
+let mongoose = require('mongoose');
 
-pool.getConnection((err, connection) => {
-    if (err) {
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.error('Database connection was closed.')
-        }
-        if (err.code === 'ER_CON_COUNT_ERROR') {
-            console.error('Database has too many connections.')
-        }
-        if (err.code === 'ECONNREFUSED') {
-            console.error('Database connection was refused.')
-        }
-    }
-    if (connection) connection.release()
-    return
-})
+class Database {
+  constructor() {
+    this._connect()
+  }
+  
+_connect() {
+     mongoose.connect('mongodb://localhost:27017/software_final')
+       .then(() => {
+         console.log('Database connection successful')
+       })
+       .catch(err => {
+         console.error('Database connection error')
+       })
+  }
+}
 
-pool.query = util.promisify(pool.query)
-
-module.exports = pool
+module.exports = new Database()
