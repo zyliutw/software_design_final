@@ -8,7 +8,12 @@ var fs = require('fs')
 
 
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    res.render('index', { title: 'Express' });
+  }
 });
 
 router.get('/login', function (req, res, next) {
@@ -19,51 +24,86 @@ router.get('/login', function (req, res, next) {
 router.post('/login', function (req, res) {
   if (req.body.username == 'admin' && req.body.pass == 'admin') {
     //req.session.userName = req.body.username; // success session
+    req.session.isLogin = 1;
     res.redirect('/');
   }
   else {
-    res.json({ ret_code: 1, ret_msg: '賬號或密碼錯誤' });// fail
+    res.json({ ret_code: 1, ret_msg: '帳號或密碼錯誤' });// fail
   }
 });
 
 router.get('/information_page', function (req, res, next) {
-  res.json({ 'information': 'value' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    res.json({'information': 'value'});
+  }
 })
 
 router.get('/management_page', function (req, res, next) {
-  res.json({ 'management': 'value' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    res.json({'management': 'value'});
+  }
 })
 
 router.get('/calendar_page', function (req, res, next) {
-  res.json({ 'calendar': 'value' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    res.json({ 'calendar': 'value' });
+  }
 })
 
 router.get('/board_page', function (req, res, next) {
-  res.json({ 'board': 'value' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    res.json({'board': 'value'});
+  }
 })
 
 router.get('/fund_management_page', function (req, res, next) {
-  res.json({ 'fund_management': 'value' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    res.json({'fund_management': 'value'});
+  }
 })
 
 router.get('/file_page', function (req, res, next) {
-  res.json({ 'file': 'value' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    res.json({'file': 'value'});
+  }
 })
 
 router.get('/member_page', function (req, res, next) {
-
-  UserModel
-    .find({
-      name: 'user1'   // search query
-    })
-    .then(doc => {
-      console.log('ff')
-      console.log(doc)
-    })
-    .catch(err => {
-      console.error(err)
-    })
-  res.json({ 'member': 'value' });
+  if (req.session.isLogin != 1) { //if not login
+    res.redirect('/login');
+  }
+  else {
+    UserModel
+      .find({
+        name: 'user1'   // search query
+      })
+      .then(doc => {
+        console.log('ff')
+        console.log(doc)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    res.json({'member': 'value'});
+  }
 })
 
 router.post('/add_member', function (req, res, next) {
