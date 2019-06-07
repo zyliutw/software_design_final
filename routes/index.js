@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
     res.redirect('/login');
   }
   else {
-    res.render('index', { title: 'Express' });
+    res.sendFile(path.join(__dirname, '../public/home.html'))
   }
 });
 
