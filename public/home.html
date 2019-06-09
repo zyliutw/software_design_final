@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 <head>
+	<meta charset="UTF-8">
 	<title>home</title>
 	<!-- <meta charset="UTF-8"> -->
 	<!-- <meta name="description" content="Game Warrior Template"> -->
@@ -38,7 +39,10 @@
 			<!-- logo -->
 
 			<div class="user-panel">
-				<a href="#">Login</a>
+				<!-- <a href="#">Login</a> -->
+				<form action="/logout" method="post">
+      				<input type="submit" value="Logout" style="background: none; border: none;" />
+  				</form>
 			</div>
 			<!-- responsive -->
 			<div class="nav-switch">
@@ -47,12 +51,19 @@
 			<!-- site menu -->
 			<nav class="main-menu">
 				<ul>
-					<li><a href="index.html">File</a></li>
+					<!-- <li><a href="index.html">File</a></li>
 					<li><a href="index.html">Member</a></li>
 					<li><a href="index.html">Funds</a></li>
 					<li><a href="index.html">Manager</a></li>
-					<li><a href="index.html">Information</a></li>
-					<li>
+					<li><a href="index.html">Information</a></li> -->
+					<form action="/member" method="post">
+      					<li><input type="submit" value="File" style="background: none; border: none;" /></li>
+      					<li><input type="submit" value="Member" style="background: none; border: none;" /></li>
+      					<li><input type="submit" value="Funds" style="background: none; border: none;" /></li>
+      					<li><input type="submit" value="Manager" style="background: none; border: none;" /></li>
+      					<li><input type="submit" value="Information" style="background: none; border: none;" /></li>
+  					</form>
+					<!-- <li>
 						<form class="community-filter">
 							<label for="fdf5">State</label>
 							<select id="fdf5">
@@ -61,7 +72,7 @@
 								<option value="#">Not in the lab</option>
 							</select>
 						</form>
-					</li>
+					</li> -->
 				</ul>
 			</nav>
 		</div>

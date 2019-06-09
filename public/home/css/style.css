@@ -296,6 +296,19 @@ ol {
 	color: #ffb320;
 }
 
+.main-menu ul li input {
+	display: inline-block;
+	font-size: 16px;
+	color: #131313;
+	/*margin-left: 35px;*/
+	font-weight: 500;
+	padding: 10px 5px;
+}
+
+.main-menu ul li input:hover {
+	color: #ffb320;
+}
+
 .header-btn {
 	float: right;
 	margin-right: 0;
