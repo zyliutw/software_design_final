@@ -17,7 +17,11 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
-  res.sendFile(path.join(__dirname, '../public/log_in.html'))
+    if (req.session.isLogin == 1) { //user already login
+      res.redirect('/');
+    } else { // user not login yet
+      res.sendFile(path.join(__dirname, '../public/log_in.html'))
+    }
 });
 
 // user login
@@ -29,6 +33,19 @@ router.post('/login', function (req, res) {
   }
   else {
     res.json({ ret_code: 1, ret_msg: '帳號或密碼錯誤' });// fail
+  }
+});
+
+// user logout
+router.post('/logout', function (req, res, next) {
+  if (req.session){
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else{
+        return res.redirect('/login');
+      }
+    });
   }
 });
 
