@@ -118,6 +118,18 @@ ol {
 .text-white a {
 	color: #fff;
 }
+.text-black h1,
+.text-black h2,
+.text-black h3,
+.text-black h4,
+.text-black h5,
+.text-black h6,
+.text-black p,
+.text-black span,
+.text-black li,
+.text-black a {
+	color: #000000;
+}
 
 .rating i {
 	color: #fbb710;
@@ -293,19 +305,6 @@ ol {
 }
 
 .main-menu ul li a:hover {
-	color: #ffb320;
-}
-
-.main-menu ul li input {
-	display: inline-block;
-	font-size: 16px;
-	color: #131313;
-	/*margin-left: 35px;*/
-	font-weight: 500;
-	padding: 10px 5px;
-}
-
-.main-menu ul li input:hover {
 	color: #ffb320;
 }
 
