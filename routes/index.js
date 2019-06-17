@@ -1,9 +1,7 @@
 var express = require('express');
-var mongoose = require('mongoose');
 var router = express.Router();
 var UserModel = require('../model/user')
 var path = require('path');
-var fs = require('fs')
 
 
 
@@ -12,7 +10,7 @@ router.get('/', function (req, res, next) {
     res.redirect('/login');
   }
   else {
-    res.sendFile(path.join(__dirname, '../public/home.html'))
+    res.render(path.join(__dirname, '../public/home.html'))
   }
 });
 
@@ -20,7 +18,7 @@ router.get('/login', function (req, res, next) {
     if (req.session.isLogin == 1) { //user already login
       res.redirect('/');
     } else { // user not login yet
-      res.sendFile(path.join(__dirname, '../public/log_in.html'))
+      res.render(path.join(__dirname, '../public/log_in.html'))
     }
 });
 
@@ -54,7 +52,7 @@ router.get('/information_page', function (req, res, next) {
     res.redirect('/login');
   }
   else {
-    res.json({'information': 'value'});
+    res.render(path.join(__dirname, '../public/information.html'))
   }
 })
 
@@ -103,11 +101,13 @@ router.get('/file_page', function (req, res, next) {
   }
 })
 
-router.get('/member_page', function (req, res, next) {
+router.get('/member', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
     res.redirect('/login');
   }
   else {
+    res.render(path.join(__dirname, '../public/member.html') ,  {name: 'hihi,bbb', date: '11,22', info: 'a,b'});
+    /*
     UserModel
       .find({
         name: 'user1'   // search query
@@ -119,7 +119,7 @@ router.get('/member_page', function (req, res, next) {
       .catch(err => {
         console.error(err)
       })
-    res.json({'member': 'value'});
+    res.json({'member': 'value'});*/
   }
 })
 

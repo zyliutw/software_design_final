@@ -10,6 +10,7 @@ const uuid = require('uuid/v4');
 require('./middleware/database')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var ejs = require('ejs');
 
 var app = express();
 // configure session
@@ -23,8 +24,8 @@ app.use(session({
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
+app.engine('html', ejs.__express);
+app.set('view engine', 'html');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

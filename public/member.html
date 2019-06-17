@@ -28,25 +28,25 @@
   <script type="text/javascript">
     $(function(){
       let nameList = document.getElementById("name").innerHTML.split(",");
-      let dataList = document.getElementById("data").innerHTML.split(",");
+      let dateList = document.getElementById("date").innerHTML.split(",");
       let infoList = document.getElementById("info").innerHTML.split(",");
       let infos = $("#list")
       let data = ""
+      console.log(nameList.length)
       for (let i = 0; i< nameList.length; i++){
-        if (data === "") {
+        
         data += "<li>"
-        	+"<div class="community-post">"
-        	+"<div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>"
-        	+"<div class="post-content">"
-        	+"<h5>"+nameList[i]+"</h5>"
-        	+"<div>"+dataList[i]+"</div>"
-        	+"<p>"+infoList[i]+"</p>"
+        	+'<div class="community-post">'
+        	+'<div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>'
+            +'<div class="post-content">'
+        	+'<h5>'+nameList[i]+'</h5>'
+            +'<div>'+dateList[i]+'</div>'
+        	+'<p>'+infoList[i]+'</p>'
         	+"</div>"
         	+"</div>"
             +"</li>"
-      	}
   	  }
-      infos.remove().end().append($(data))
+      infos.empty().append($(data))
     });
   </script>
 </head>
@@ -70,12 +70,22 @@
 			<!-- site menu -->
 			<nav class="main-menu">
 				<ul>
-					<li><a href="index.html">File</a></li>
-					<li><a href="index.html">Member</a></li>
-					<li><a href="index.html">Funds</a></li>
-					<li><a href="index.html">Manager</a></li>
-					<li><a href="index.html">Information</a></li>
-				</ul>
+                    <li><a href="./file">File</a></li>
+                   <li><a href="./member">Member</a></li>
+                   <li><a href="./fund">Funds</a></li>
+                   <li><a href=./manager>Manager</a></li>
+                   <li><a href=./information>Information</a></li>
+                   <!-- <li>
+                       <form class="community-filter">
+                           <label for="fdf5">State</label>
+                           <select id="fdf5">
+                               <option value="#">In the lab</option>
+                               <option value="#">Leave temporarily</option>
+                               <option value="#">Not in the lab</option>
+                           </select>
+                       </form>
+                   </li> -->
+               </ul>
 			</nav>
 		</div>
 	</header>
@@ -121,9 +131,9 @@
 						<div class="community-post">
 							<div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
 							<div class="post-content">
-								<h5 id="name">{name}</h5>
-								<div class="post-date" id="date">{data}</div>
-								<p id="info">{info}</p>
+								<h5 id="name"><%= name %></h5> 
+								<div class="post-date" id="date"><%= date %></div>
+								<p id="info"><%= info %></p>
 							</div>
 						</div>
 					</li>
