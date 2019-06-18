@@ -125,11 +125,14 @@ router.get('/member', function (req, res, next) {
 
 router.post('/add_member', function (req, res, next) {
 
+  let name = req.body.name
+  let date = req.body.date
+  let info = req.body.info
+
   let msg = new UserModel({
-    name: 'test1',
-    birthday: '1999-12-12',
-    address: 'test',
-    where: 1
+    name: name,
+    date: date,
+    info: info
   })
 
   msg.save()

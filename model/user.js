@@ -2,8 +2,7 @@ var mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     name: String,
-    birthday: Date,
-    address: String,
+    date: Date,
     info: String,
     where: Number
 });
