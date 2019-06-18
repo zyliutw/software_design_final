@@ -24,14 +24,25 @@ router.get('/login', function (req, res, next) {
 
 // user login
 router.post('/login', function (req, res) {
-  if (req.body.username == 'admin' && req.body.pass == 'admin') {
-    //req.session.userName = req.body.username; // success session
-    req.session.isLogin = 1;
-    res.redirect('/');
-  }
-  else {
-    res.json({ ret_code: 1, ret_msg: '帳號或密碼錯誤' });// fail
-  }
+  let user = req.body.username;
+  let pass = req.body.pass;
+
+  UserModel.find({account: user}, 'pwd', function (err, docs){
+    if(err) return handleError(err);
+    if(docs[0]!=null && docs[0].pwd == pass){
+      req.session.account = user;
+      req.session.isLogin = 1;
+      res.redirect('/');
+    }
+
+    else if (user == 'admin' && pass == 'admin') { // 開發方便用，完成後記得刪除ㄛ
+      req.session.username = user;                 // .
+      req.session.isLogin = 1;                     // .
+      res.redirect('/');                           // .
+    }                                              // 刪到這邊 :D
+
+    else res.json({ ret_code: 1, ret_msg: '帳號或密碼錯誤' });
+  });
 });
 
 // user logout
@@ -125,15 +136,16 @@ router.get('/member', function (req, res, next) {
 
 router.post('/add_member', function (req, res, next) {
 
-  let name = req.body.name
-  let date = req.body.date
-  let info = req.body.info
+  let name = req.body.name;
+  let date = req.body.date;
+  let info = req.body.info;
 
   let msg = new UserModel({
     name: name,
+    pwd: '0000',
     date: date,
     info: info
-  })
+  });
 
   msg.save()
     .then(doc => {
@@ -141,9 +153,32 @@ router.post('/add_member', function (req, res, next) {
     })
     .catch(err => {
       console.error(err)
-    })
+    });
 
   res.json({ 'state': 'ok' });
-})
+});
+
+router.post('/updateAccount', function (req, res, next) {
+
+  let name = req.body.name;
+  let email = req.body.email;
+  let info = req.body.aboutme;
+
+  let msg = new UserModel({
+    name: name,
+    email: email,
+    info: info
+  });
+
+  let acc = req.session.account;
+  UserModel.where().
+    findOneAndReplace(
+    {account: acc},
+    msg,
+    function (err, docs) {
+      if(err) return handleError(err);
+    })
+
+});
 
 module.exports = router;
