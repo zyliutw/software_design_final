@@ -56,7 +56,7 @@ router.post('/logout', function (req, res, next) {
   }
 });
 
-router.get('/information_page', function (req, res, next) {
+router.get('/information', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
     res.redirect('/login');
   }
@@ -142,14 +142,14 @@ router.post('/addMember', function (req, res, next) {
   let info = req.body.info;
   let email = req.body.email;
 
-  console.log(email)
   let msg = new UserModel({
     account: account,
     name: name,
     pwd: '0000',
     date: date,
     email: email,
-    info: info
+    info: info,
+    manager: false,
   });
   msg.save()
     .then(doc => {
