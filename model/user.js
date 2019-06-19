@@ -4,9 +4,10 @@ const userSchema = new mongoose.Schema({
     account: String,
     name: String,
     pwd: String,
-    date: Date,
+    date: String,
     email: String,
     info: String,
+    manager: Boolean,
     where: Number
 });
 

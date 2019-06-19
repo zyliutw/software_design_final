@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var UserModel = require('../model/user')
-var path = require('path');
-
-
+var path = require('path'); 
 
 router.get('/', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
@@ -117,36 +115,42 @@ router.get('/member', function (req, res, next) {
     res.redirect('/login');
   }
   else {
-    res.render(path.join(__dirname, '../public/member.html') ,  {name: 'hihi,bbb', date: '11,22', info: 'a,b'});
-    /*
-    UserModel
-      .find({
-        name: 'user1'   // search query
-      })
-      .then(doc => {
-        console.log('ff')
-        console.log(doc)
-      })
-      .catch(err => {
-        console.error(err)
-      })
-    res.json({'member': 'value'});*/
+    UserModel.find({}, function(err, users) {
+        if (!err) {
+            let name = []
+            let date = []
+            let info = []
+
+            users.forEach(user => {
+                name.push(user.name);
+                date.push(user.date);
+                info.push(user.info);
+            })
+            res.render(path.join(__dirname, '../public/member.html'),  {'name': name.toString(), 'date': date.toString(), 'info': info.toString()});
+
+        } else { throw err; }
+    });
+
   }
 })
 
-router.post('/add_member', function (req, res, next) {
+router.post('/addMember', function (req, res, next) {
 
+  let account = req.body.account;
   let name = req.body.name;
   let date = req.body.date;
   let info = req.body.info;
+  let email = req.body.email;
 
+  console.log(email)
   let msg = new UserModel({
+    account: account,
     name: name,
     pwd: '0000',
     date: date,
+    email: email,
     info: info
   });
-
   msg.save()
     .then(doc => {
       console.log(doc)
@@ -162,7 +166,7 @@ router.post('/updateAccount', function (req, res, next) {
 
   let name = req.body.name;
   let email = req.body.email;
-  let info = req.body.aboutme;
+  let info = req.body.info;
 
   let msg = new UserModel({
     name: name,

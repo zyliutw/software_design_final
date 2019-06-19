@@ -6,7 +6,7 @@ class Database {
   }
   
 _connect() {
-     mongoose.connect('mongodb://localhost:27017/software_final')
+     mongoose.connect('mongodb://localhost:27017/software_final', { useNewUrlParser: true })
        .then(() => {
          console.log('Database connection successful')
        })

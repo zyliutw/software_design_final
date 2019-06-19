@@ -5,11 +5,9 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var session = require('express-session');
-var bodyparser = require('body-parser');
+var bodyParser = require('body-parser')
 const uuid = require('uuid/v4');
 require('./middleware/database')
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var ejs = require('ejs');
 
 var app = express();
@@ -27,12 +25,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', ejs.__express);
 app.set('view engine', 'html');
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
