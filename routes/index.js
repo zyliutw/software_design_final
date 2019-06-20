@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var UserModel = require('../model/user')
+var UserModel = require('../model/user');
+var Bulletin = require('../model/bulletin');
 var path = require('path'); 
 
 router.get('/', function (req, res, next) {
@@ -27,6 +28,7 @@ router.post('/login', function (req, res) {
 
   UserModel.find({account: user}, 'pwd', function (err, docs){
     if(err) return handleError(err);
+    console.log(docs);
     if(docs[0]!=null && docs[0].pwd == pass){
       req.session.account = user;
       req.session.isLogin = 1;
@@ -34,7 +36,7 @@ router.post('/login', function (req, res) {
     }
 
     else if (user == 'admin' && pass == 'admin') { // 開發方便用，完成後記得刪除ㄛ
-      req.session.username = user;                 // .
+      req.session.account = user;                 // .
       req.session.isLogin = 1;                     // .
       res.redirect('/');                           // .
     }                                              // 刪到這邊 :D
@@ -83,14 +85,54 @@ router.get('/calendar_page', function (req, res, next) {
   }
 })
 
-router.get('/board_page', function (req, res, next) {
+// board page render
+router.get('/board', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
     res.redirect('/login');
   }
   else {
-    res.json({'board': 'value'});
+      Bulletin.find({}, function(err, docs) {
+          if (!err) {
+              let user = [];
+              let date = [];
+              let body = [];
+
+              docs.forEach(post => {
+                  user.push(post.userName);
+                  date.push(post.date);
+                  body.push(post.body);
+              })
+              //res.render(path.join(__dirname, '../public/board.html'),  {'user': user.toString(), 'date': date.toString(), 'body': body.toString()});
+              // waiting for frontend page
+          } else { throw err; }
+      });
+      res.json({'board': 'value'});
   }
-})
+});
+
+// add a new post on bulletin
+router.post('/board', function (req, res, next) {
+    let userAcc = req.session.account;
+    UserModel.findOne({account: userAcc}, 'name', function (err, docs) {
+        if(err) return handleError(err);
+        if(docs[0]==null) res.json({"無效的使用者"});
+        else{
+            let userName = docs[0].name;
+            let msg = new Bulletin({
+                userAcc: userAcc,
+                userName: userName,
+                body: body
+            });
+            msg.save()
+                .then(doc => {
+                    console.log(doc)
+                })
+                .catch(err => {
+                    console.error(err)
+                });
+        }
+    });
+});
 
 router.get('/fund_management_page', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
