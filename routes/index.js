@@ -114,8 +114,8 @@ router.get('/board', function (req, res, next) {
 router.post('/board', function (req, res, next) {
     let userAcc = req.session.account;
     UserModel.findOne({account: userAcc}, 'name', function (err, docs) {
-        if(err) return handleError(err);
-        if(docs[0]==null) res.json({"無效的使用者"});
+        if(err) throw err;;
+        if(docs[0]==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
         else{
             let userName = docs[0].name;
             let msg = new Bulletin({
@@ -210,19 +210,19 @@ router.post('/updateAccount', function (req, res, next) {
   let email = req.body.email;
   let info = req.body.info;
 
-  let msg = new UserModel({
+  let msg = {
     name: name,
     email: email,
     info: info
-  });
+  };
+  console.log(msg);
 
   let acc = req.session.account;
-  UserModel.where().
-    findOneAndReplace(
+  UserModel.updateOne(
     {account: acc},
     msg,
     function (err, docs) {
-      if(err) return handleError(err);
+        if(err) throw err;
     })
 
 });
