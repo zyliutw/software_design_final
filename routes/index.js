@@ -28,7 +28,7 @@ router.post('/login', function (req, res) {
 
   UserModel.find({account: user}, 'pwd', function (err, docs){
     if(err) return handleError(err);
-    console.log(docs);
+    //console.log(docs);
     if(docs[0]!=null && docs[0].pwd == pass){
       req.session.account = user;
       req.session.isLogin = 1;
@@ -113,11 +113,13 @@ router.get('/board', function (req, res, next) {
 // add a new post on bulletin
 router.post('/board', function (req, res, next) {
     let userAcc = req.session.account;
+    let body = req.body.body;
     UserModel.findOne({account: userAcc}, 'name', function (err, docs) {
         if(err) throw err;;
-        if(docs[0]==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
+        console.log(docs);
+        if(docs==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
         else{
-            let userName = docs[0].name;
+            let userName = docs.name;
             let msg = new Bulletin({
                 userAcc: userAcc,
                 userName: userName,
@@ -130,6 +132,7 @@ router.post('/board', function (req, res, next) {
                 .catch(err => {
                     console.error(err)
                 });
+            res.json({ 'state': 'ok' });
         }
     });
 });
