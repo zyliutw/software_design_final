@@ -10,6 +10,7 @@ const uuid = require('uuid/v4');
 require('./middleware/database')
 var ejs = require('ejs');
 
+
 var app = express();
 // configure session
 app.use(session({
@@ -28,13 +29,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
+app.use('/file', express.static('./server/uploads'));
 
 
 // catch 404 and forward to error handler

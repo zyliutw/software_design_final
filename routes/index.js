@@ -1,8 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var UserModel = require('../model/user');
-var Bulletin = require('../model/bulletin');
+var BulletinModel = require('../model/bulletin');
+var FileUploadModel = require('../model/fileupload');
 var path = require('path'); 
+var multer  = require('multer')
+var upload = multer({ dest: path.join(__dirname + '../../public/uploads/') })
+
+
 
 router.get('/', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
@@ -91,7 +96,7 @@ router.get('/board', function (req, res, next) {
     res.redirect('/login');
   }
   else {
-      Bulletin.find({}, function(err, docs) {
+      BulletinModel.find({}, function(err, docs) {
           if (!err) {
               let user = [];
               let date = [];
@@ -115,12 +120,12 @@ router.post('/board', function (req, res, next) {
     let userAcc = req.session.account;
     let body = req.body.body;
     UserModel.findOne({account: userAcc}, 'name', function (err, docs) {
-        if(err) throw err;;
+        if(err) throw err;
         console.log(docs);
         if(docs==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
         else{
             let userName = docs.name;
-            let msg = new Bulletin({
+            let msg = new BulletinModel({
                 userAcc: userAcc,
                 userName: userName,
                 body: body
@@ -146,7 +151,7 @@ router.get('/fund_management_page', function (req, res, next) {
   }
 })
 
-router.get('/file_page', function (req, res, next) {
+router.get('/file', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
     res.redirect('/login');
   }
@@ -154,6 +159,36 @@ router.get('/file_page', function (req, res, next) {
     res.json({'file': 'value'});
   }
 })
+
+router.post('/file', upload.single('file'), function (req, res, next) {
+            console.log('f')
+            let msg = new FileUploadModel({
+                userAcc: 'a',
+                userName: 'b',
+                description: 'b',
+                path: req.file.filename,
+            });
+            msg.save()
+                .then(doc => {
+                    console.log(doc)
+                })
+                .catch(err => {
+                    console.error(err)
+                });
+            res.json({ 'state': 'ok' });
+/*
+    let userAcc = req.session.account;
+    let description = req.body.description;
+    FileUploadModel.findOne({account: userAcc}, 'name', function (err, docs) {
+        if(err) throw err;
+        if(docs==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
+        else{
+            
+        }
+    });
+    */
+})
+
 
 router.get('/member', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
