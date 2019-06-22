@@ -5,6 +5,7 @@ const fileSchema = new mongoose.Schema({
     userName: String,
     description: String,
     date: {type: Date, default: Date.now},
+    captain: String,
     path: String,
 });
 

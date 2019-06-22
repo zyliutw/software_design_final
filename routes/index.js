@@ -152,21 +152,52 @@ router.get('/fund_management_page', function (req, res, next) {
 })
 
 router.get('/file', function (req, res, next) {
-  if (req.session.isLogin != 1) { //if not login
-    res.redirect('/login');
-  }
-  else {
-    res.json({'file': 'value'});
-  }
+    if (req.session.isLogin != 1) { //if not login
+        res.redirect('/login');
+    }
+    else {
+        FileUploadModel.find({}, function (err, docs) {
+            if (!err) {
+                let user = [];
+                let captain = [];
+                let description = [];
+                let path = [];
+
+                docs.forEach(post => {
+                    user.push(post.userName);
+                    captain.push(post.captain);
+                    description.push(post.description);
+                    path.push(post.path);
+                })
+
+                console.log(user)
+                console.log(captain)
+                console.log(description)
+                console.log(path)
+                //res.render(path.join(__dirname, '../public/file.html'),  {'user': user.toString(), 'captain': date.toString(), 'description': body.toString(), 'path': path.toString()});
+                // waiting for frontend page
+            } else { throw err; }
+        });
+        res.json({ 'file': 'value' });
+    }
+    
 })
 
 router.post('/file', upload.single('file'), function (req, res, next) {
-            console.log('f')
+    let userAcc = req.session.account;
+    let description = req.body.description;
+    let captain = req.body.captain;
+    FileUploadModel.findOne({account: userAcc}, 'name', function (err, docs) {
+        if(err) throw err;
+        if(docs==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
+        else{
+            let userName = docs.name;
             let msg = new FileUploadModel({
-                userAcc: 'a',
-                userName: 'b',
-                description: 'b',
-                path: req.file.filename,
+                userAcc: userAcc,
+                userName: userName,
+                captain: captain,
+                description: description,
+                path: 'uploads/' + req.file.filename,
             });
             msg.save()
                 .then(doc => {
@@ -176,17 +207,9 @@ router.post('/file', upload.single('file'), function (req, res, next) {
                     console.error(err)
                 });
             res.json({ 'state': 'ok' });
-/*
-    let userAcc = req.session.account;
-    let description = req.body.description;
-    FileUploadModel.findOne({account: userAcc}, 'name', function (err, docs) {
-        if(err) throw err;
-        if(docs==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
-        else{
-            
         }
     });
-    */
+            
 })
 
 
