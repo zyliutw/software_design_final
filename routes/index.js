@@ -34,7 +34,7 @@ router.post('/login', function (req, res) {
 
   UserModel.find({account: user}, 'pwd', function (err, docs){
     if(err) return handleError(err);
-    //console.log(docs);
+    console.log(docs);
     if(docs[0]!=null && docs[0].pwd == pass){
       req.session.account = user;
       req.session.isLogin = 1;
@@ -108,11 +108,10 @@ router.get('/board', function (req, res, next) {
                   date.push(post.date);
                   body.push(post.body);
               })
-              //res.render(path.join(__dirname, '../public/board.html'),  {'user': user.toString(), 'date': date.toString(), 'body': body.toString()});
-              // waiting for frontend page
+              res.render(path.join(__dirname, '../public/board.html'),  {'user': user.toString(), 'date': date.toString(), 'body': body.toString()});
           } else { throw err; }
       });
-      res.json({'board': 'value'});
+      //res.json({'board': 'value'});
   }
 });
 
@@ -138,7 +137,7 @@ router.post('/board', function (req, res, next) {
                 .catch(err => {
                     console.error(err)
                 });
-            res.json({ 'state': 'ok' });
+            res.redirect('/board');
         }
     });
 });
@@ -228,6 +227,7 @@ router.get('/member', function (req, res, next) {
                 name.push(user.name);
                 date.push(user.date);
                 info.push(user.info);
+
             })
             res.render(path.join(__dirname, '../public/member.html'),  {'name': name.toString(), 'date': date.toString(), 'info': info.toString()});
         } else { throw err; }
@@ -239,6 +239,7 @@ router.post('/addMember', function (req, res, next) {
 
   let account = req.body.account;
   let name = req.body.name;
+  let pwd = req.body.pwd;
   let date = req.body.date;
   let info = req.body.info;
   let email = req.body.email;
@@ -246,7 +247,7 @@ router.post('/addMember', function (req, res, next) {
   let msg = new UserModel({
     account: account,
     name: name,
-    pwd: '0000',
+    pwd: pwd,
     date: date,
     email: email,
     info: info,
@@ -282,6 +283,9 @@ router.post('/updateAccount', function (req, res, next) {
     msg,
     function (err, docs) {
         if(err) throw err;
+        else{
+            res.json({ 'state': 'ok' });
+        }
     })
 });
 
@@ -366,5 +370,19 @@ router.post('/fund/delete', function (req, res, next) {
     });
 });
 
+router.post('/where', function (req, res, next) {
+    let userAcc = req.session.account;
+    let msg = {where: req.body.where};
+    UserModel.updateOne(
+        {account: userAcc},
+        msg,
+        function (err, docs) {
+            if(err) throw err;
+            else {
+                res.json({ 'state': 'ok'})
+            }
+        })
+
+});
 
 module.exports = router;

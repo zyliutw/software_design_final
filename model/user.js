@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     info: String,
     manager: Boolean,
-    where: Number
+    where: String
 });
 
 module.exports = mongoose.model('User', userSchema);
