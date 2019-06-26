@@ -73,6 +73,33 @@ router.get('/information', function (req, res, next) {
   }
 })
 
+
+router.post('/updateAccount', function (req, res, next) {
+
+    let name = req.body.name;
+    let email = req.body.email;
+    let info = req.body.info;
+
+    let msg = {
+        name: name,
+        email: email,
+        info: info
+    };
+    console.log(msg);
+
+    let acc = req.session.account;
+    UserModel.updateOne(
+        {account: acc},
+        msg,
+        function (err, docs) {
+            if(err) throw err;
+            else{
+                res.redirect('/information');
+            }
+        })
+});
+
+
 router.get('/management_page', function (req, res, next) {
   if (req.session.isLogin != 1) { //if not login
     res.redirect('/login');
@@ -161,24 +188,24 @@ router.get('/file', function (req, res, next) {
                 let user = [];
                 let captain = [];
                 let description = [];
-                let path = [];
+                let filepath = [];
 
                 docs.forEach(post => {
                     user.push(post.userName);
                     captain.push(post.captain);
                     description.push(post.description);
-                    path.push(post.path);
+                    filepath.push(post.path);
                 })
 
                 console.log(user)
                 console.log(captain)
                 console.log(description)
-                console.log(path)
-                //res.render(path.join(__dirname, '../public/file.html'),  {'user': user.toString(), 'captain': date.toString(), 'description': body.toString(), 'path': path.toString()});
-                // waiting for frontend page
+                console.log(filepath)
+
+                res.render(path.join(__dirname, '../public/file.html'),  {'user': user.toString(), 'captain': captain.toString(), 'description': description.toString(), 'path': filepath.toString()});
             } else { throw err; }
         });
-        res.json({ 'file': 'value' });
+        //res.json({ 'file': 'value' });
     }
     
 })
@@ -187,6 +214,12 @@ router.post('/file', upload.single('file'), function (req, res, next) {
     let userAcc = req.session.account;
     let description = req.body.description;
     let captain = req.body.captain;
+    let file = req.file;
+    console.log('文件類型：%s', file.mimetype);
+    console.log('原始文件名：%s', file.originalname);
+    console.log('文件大小：%s', file.size);
+    console.log('文件保存路徑：%s', file.path);
+
     UserModel.findOne({account: userAcc}, 'name', function (err, docs) {
         if(err) throw err;
         if(docs==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
@@ -197,7 +230,7 @@ router.post('/file', upload.single('file'), function (req, res, next) {
                 userName: userName,
                 captain: captain,
                 description: description,
-                path: 'uploads/' + req.file.filename,
+                path: 'uploads/' + req.file.filename
             });
             msg.save()
                 .then(doc => {
@@ -206,7 +239,7 @@ router.post('/file', upload.single('file'), function (req, res, next) {
                 .catch(err => {
                     console.error(err)
                 });
-            res.json({ 'state': 'ok' });
+            res.redirect('/file');
         }
     });
 })
@@ -260,33 +293,7 @@ router.post('/addMember', function (req, res, next) {
     .catch(err => {
       console.error(err)
     });
-
-  res.json({ 'state': 'ok' });
-});
-
-router.post('/updateAccount', function (req, res, next) {
-
-  let name = req.body.name;
-  let email = req.body.email;
-  let info = req.body.info;
-
-  let msg = {
-    name: name,
-    email: email,
-    info: info
-  };
-  console.log(msg);
-
-  let acc = req.session.account;
-  UserModel.updateOne(
-    {account: acc},
-    msg,
-    function (err, docs) {
-        if(err) throw err;
-        else{
-            res.json({ 'state': 'ok' });
-        }
-    })
+    res.redirect('/login');
 });
 
 router.get('/fund', function (req, res, next) {

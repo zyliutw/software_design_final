@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>File</title>
+    <!-- <meta charset="UTF-8"> -->
+    <!-- <meta name="description" content="Game Warrior Template"> -->
+    <!-- <meta name="keywords" content="warrior, game, creative, html"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- Favicon -->
+    <link href="home/img/favicon.ico" rel="shortcut icon"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="home/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="home/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="home/css/owl.carousel.css"/>
+    <link rel="stylesheet" href="home/css/style.css"/>
+    <link rel="stylesheet" href="home/css/animate.css"/>
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            let userList = document.getElementById("user").innerHTML.split(",");
+            let captainList = document.getElementById("captain").innerHTML.split(",");
+            let descriptionList = document.getElementById("description").innerHTML.split(",");
+            let pathList = document.getElementById("path").innerHTML.split(",");
+            let infos = $("#list")
+            let data = ""
+            console.log(userList.length)
+            for (let i = userList.length-1; i>= 0; i--){
+
+                data += "<li>"
+                    +'<div class="community-post">'
+                    +'<div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>'
+                    +'<div class="post-content">'
+                    +'<h5>'+captainList[i]+'</h5>'
+                    +'<p>'+pathList[i]+'</p>'
+                    +'<h5>'+'Updated by '+userList[i]+'</h5>'
+                    +'<p>'+descriptionList[i]+'</p>'
+                    +"</div>"
+                    +"</div>"
+                    +"</li>"
+            }
+            infos.empty().append($(data))
+        });
+    </script>
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Header section -->
+<header class="header-section">
+    <div class="container">
+        <!-- logo -->
+        <div class="user-panel">
+            <!-- <a href="#">Login</a> -->
+            <form action="/logout" method="post">
+                <input type="submit" value="Logout" style="background: none; border: none;" />
+            </form>
+        </div>
+        <!-- responsive -->
+        <div class="nav-switch">
+            <i class="fa fa-bars"></i>
+        </div>
+        <!-- site menu -->
+        <nav class="main-menu">
+            <ul>
+                <li><a href="./">Home</a></li>
+                <li><a href="./member">Member</a></li>
+                <li><a href="./fund">Funds</a></li>
+                <li><a href=./information>Information</a></li>
+                <li><a href=./board>Board</a></li>
+                <!-- <li>
+                    <form class="community-filter">
+                        <label for="fdf5">State</label>
+                        <select id="fdf5">
+                            <option value="#">In the lab</option>
+                            <option value="#">Leave temporarily</option>
+                            <option value="#">Not in the lab</option>
+                        </select>
+                    </form>
+                </li> -->
+            </ul>
+        </nav>
+    </div>
+</header>
+<!-- Header section end -->
+
+<!--
+
+ Latest news section
+<div class="latest-news-section">
+    <div class="ln-title">Latest News</div>
+    <div class="news-ticker">
+        <div class="news-ticker-contant">
+            <div class="nt-item"><span class="strategy">news 1</span>message1</div>
+            <div class="nt-item"><span class="strategy">news 2</span>message2</div>
+            <div class="nt-item"><span class="strategy">news 3</span>message3</div>
+        </div>
+    </div>
+</div>
+ Latest news section end
+-->
+
+
+<!-- Page info section -->
+<section class="page-info-section set-bg" data-setbg="home/img/page-top-bg/b.jpg">
+    <div class="pi-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-6 text-black">
+                    <h2>Our Lab</h2>
+                    <p>Files of the LAB<br>
+                    Share with everyone <3 </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page info section -->
+
+
+<!-- Page section -->
+<section class="page-section single-blog-page spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="comment-form-warp">
+                    <h4 class="comment-title">Update File</h4>
+                    <form class="comment-form" action="/file" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" placeholder="File name" name="captain">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="file" name="file">
+                            </div>
+                            <div class="col-lg-12">
+                                <textarea placeholder="Describe the file..." name="description"></textarea>
+                                <button class="site-btn btn-sm" type="submit">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="page-section community-page set-bg">
+    <div class="community-warp spad">
+        <div class="container">
+            <ul class="community-post-list" id="list">
+                <li>
+                    <div class="community-post">
+                        <div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
+                        <div class="post-content">
+                            <h5 id="captain"><%= captain %></h5>
+                            <p id="path"><%= path %></p>
+                            <span>
+                                <h5 id="user"><%= user %></h5>
+                                <p id="description"><%= description %></p>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <!-- <li>
+                    <div class="community-post">
+                        <div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
+                        <div class="post-content">
+                            <h5>Name</h5>
+                            <div class="post-date">2019-06-12</div>
+                            <p>information</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="community-post">
+                        <div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
+                        <div class="post-content">
+                            <h5>Name</h5>
+                            <div class="post-date">2019-06-12</div>
+                            <p>information</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="community-post">
+                        <div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
+                        <div class="post-content">
+                            <h5>Name</h5>
+                            <div class="post-date">2019-06-12</div>
+                            <p>information</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="community-post">
+                        <div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
+                        <div class="post-content">
+                            <h5>Name</h5>
+                            <div class="post-date">2019-06-12</div>
+                            <p>information</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="community-post">
+                        <div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
+                        <div class="post-content">
+                            <h5>Name</h5>
+                            <div class="post-date">2019-06-12</div>
+                            <p>information</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="community-post">
+                        <div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
+                        <div class="post-content">
+                            <h5>Name</h5>
+                            <div class="post-date">2019-06-12</div>
+                            <p>information</p>
+                        </div>
+                    </div>
+                </li> -->
+            </ul>
+            <!--<div class="site-pagination sp-style-2">
+                <span class="active">01.</span>
+                <a href="#">02.</a>
+                <a href="#">03.</a>
+            </div>-->
+        </div>
+    </div>
+</section>
+<!-- Page section end -->
+
+
+<!-- Footer top section -->
+<!-- Footer top section end -->
+
+
+<!-- Footer section -->
+<!-- Footer section end -->
+
+
+<!--====== Javascripts & Jquery ======-->
+<script src="home/js/jquery-3.2.1.min.js"></script>
+<script src="home/js/bootstrap.min.js"></script>
+<script src="home/js/owl.carousel.min.js"></script>
+<script src="home/js/jquery.marquee.min.js"></script>
+<script src="home/js/main.js"></script>
+</body>
+</html>
