@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-	<title>Information</title>
+	<title>fund</title>
 	<!-- <meta charset="UTF-8"> -->
 	<!-- <meta name="description" content="Game Warrior Template"> -->
 	<!-- <meta name="keywords" content="warrior, game, creative, html"> -->
@@ -104,24 +104,52 @@
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="comment-form-warp">
-						<h4 class="comment-title">Information</h4>
+						<table border="1" style="padding:20px;">
+							<tr>
+								<th class="table_h">name</th>
+								<th class="table_h">userName</th>
+								<th class="table_h">description</th>
+								<th class="table_h">type</th>
+								<th class="table_h">date</th>
+							</tr>
+							<tr>
+								<td class="table_d">123456</td>
+								<td class="table_d">老大</td>
+								<td class="table_d">computer</td>
+								<td class="table_d">0</td>
+								<td class="table_d">20190626</td>
+							</tr>
+						</table>
+						<h4 class="comment-title">Update</h4>
 						<form class="comment-form" method="post" action="/updateAccount">
 							<div class="row">
-								<div class="col-md-6">
-									<input type="text" placeholder="Name">
-								</div>
-								<div class="check-bt">
-									<input type="button" value="hello"/>
-								</div>
-								<div class="check-bt">
-									<input type="button" value="hello"/>
-								</div>
-								<div class="col-md-6">
-									<input type="email" placeholder="Email">
-								</div>	
 								<div class="col-lg-12">
-									<button class="site-btn btn-sm">Create</button>
+									<input type="text" placeholder="name">
 								</div>
+								<div class="col-lg-12">
+									<input type="text" placeholder="userName">
+								</div>
+								<div class="col-lg-12">
+									<input type="text" placeholder="description">
+								</div>
+								<div class="col-lg-12">
+									<input type="text" placeholder="type">
+								</div>
+								<div class="col-lg-12">
+									<input type="text" placeholder="date">
+								</div>
+								<div class="check-bt">
+									<input type="button" value="insert"/>
+								</div>
+								<div class="check-bt">
+									<input type="button" value="delete"/>
+								</div>
+								<!-- <div class="col-lg-12"> -->
+									<!-- <button class="site-btn btn-sm">Create</button> -->
+								<!-- </div> -->
+								<!-- <div class="col-lg-12"> -->
+									<!-- <button class="site-btn btn-sm-1">Create</button> -->
+								<!-- </div> -->
 							</div>
 						</form>
 					</div>

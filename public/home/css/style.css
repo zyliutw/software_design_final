@@ -184,6 +184,13 @@ ol {
 	min-width: 163px;
 }
 
+.site-btn.btn-sm-1 {
+	display:inline;
+	position:relative;
+	padding: 10px 30px;
+	min-width: 163px;
+}
+
 .site-btn:hover {
 	color: #131313;
 }
@@ -1540,4 +1547,15 @@ ol {
 	.page-info-section .pi-content h2 {
 		font-size: 40px;
 	}
+}
+
+
+
+.table_h {
+	height:60px;
+}
+
+.table_d {
+	height:80px;
+	width:360px;
 }
