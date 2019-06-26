@@ -1215,6 +1215,11 @@ ol {
 	margin-bottom: 18px;
 }
 
+.community-post-list .community-post .post-content .email {
+	color: #ffeabb;
+	margin-bottom: 5px;
+}
+
 .community-post-list .attachment-file {
 	padding-top: 60px;
 	max-width: 435px;

@@ -30,6 +30,7 @@
       let nameList = document.getElementById("name").innerHTML.split(",");
       let dateList = document.getElementById("date").innerHTML.split(",");
       let infoList = document.getElementById("info").innerHTML.split(",");
+      let emailList = document.getElementById("email").innerHTML.split(",");
       let infos = $("#list")
       let data = ""
       console.log(nameList.length)
@@ -40,7 +41,8 @@
         	+'<div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>'
             +'<div class="post-content">'
         	+'<h5>'+nameList[i]+'</h5>'
-            +'<div>'+dateList[i]+'</div>'
+			+'<div class="email">'+emailList[i]+'</div>'
+            +'<div class="post-date">'+dateList[i]+'</div>'
         	+'<p>'+infoList[i]+'</p>'
         	+"</div>"
         	+"</div>"
@@ -133,7 +135,8 @@
 						<div class="community-post">
 							<div class="author-avator set-bg" data-setbg="home/img/authors/a.jpg"></div>
 							<div class="post-content">
-								<h5 id="name"><%= name %></h5> 
+								<h5 id="name"><%= name %></h5>
+								<div class="email" id="email"><%= email %></div>
 								<div class="post-date" id="date"><%= date %></div>
 								<p id="info"><%= info %></p>
 							</div>

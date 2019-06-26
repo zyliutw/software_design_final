@@ -291,14 +291,16 @@ router.get('/member', function (req, res, next) {
             let name = []
             let date = []
             let info = []
+            let email = []
 
             users.forEach(user => {
                 name.push(user.name);
                 date.push(user.date);
                 info.push(user.info);
+                email.push(user.email);
 
             })
-            res.render(path.join(__dirname, '../public/member.html'),  {'name': name.toString(), 'date': date.toString(), 'info': info.toString()});
+            res.render(path.join(__dirname, '../public/member.html'),  {'name': name.toString(), 'date': date.toString(), 'info': info.toString(), 'email': email.toString()});
         } else { throw err; }
     });
   }
@@ -327,7 +329,7 @@ router.get('/fund', function (req, res, next) {
                 })
 
                 // 必須更改 reder的html
-                res.render(path.join(__dirname, '../public/member.html'), { 'name': id.toString(),
+                res.render(path.join(__dirname, '../public/fund.html'), { 'name': id.toString(),
                                                                             'userName': userName.toString(),
                                                                             'description': description.toString(),
                                                                             'type': type.toString(),
@@ -364,14 +366,14 @@ router.post('/fund/add', function (req, res, next) {
                 .catch(err => {
                     console.error(err)
                 });
-            res.json({ 'state': 'ok' });
+            res.redirect('/fund');
         }
     });
 });
 
 router.post('/fund/delete', function (req, res, next) {
     let userAcc = req.session.account;
-    let id = req.body.id;
+    let id = req.body.id1;
     UserModel.findOne({account: userAcc}, 'name', function (err, docs) {
         if(err) throw err;
         if(docs==null) res.json({ ret_code: 1, ret_msg: '無效的使用者' });
@@ -379,7 +381,7 @@ router.post('/fund/delete', function (req, res, next) {
             FundingModel.deleteOne({ _id: id}, function (err) {
                 if (err) throw err;
                 else {
-                    res.json({ 'state': 'ok'})
+                    res.redirect('/fund');
                 }
             })
         }
