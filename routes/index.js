@@ -51,6 +51,42 @@ router.post('/login', function (req, res) {
   });
 });
 
+router.get('/create', function (req, res, next) {
+    if (req.session.isLogin == 1) { //user already login
+        res.redirect('/');
+    } else { // user not login yet
+        res.render(path.join(__dirname, '../public/create.html'))
+    }
+});
+
+router.post('/addMember', function (req, res, next) {
+
+    let account = req.body.account;
+    let name = req.body.name;
+    let pwd = req.body.pwd;
+    let date = req.body.date;
+    let info = req.body.info;
+    let email = req.body.email;
+
+    let msg = new UserModel({
+        account: account,
+        name: name,
+        pwd: pwd,
+        date: date,
+        email: email,
+        info: info,
+        manager: false,
+    });
+    msg.save()
+        .then(doc => {
+            console.log(doc)
+        })
+        .catch(err => {
+            console.error(err)
+        });
+    res.redirect('/login');
+});
+
 // user logout
 router.post('/logout', function (req, res, next) {
   if (req.session){
@@ -268,33 +304,6 @@ router.get('/member', function (req, res, next) {
   }
 })
 
-router.post('/addMember', function (req, res, next) {
-
-  let account = req.body.account;
-  let name = req.body.name;
-  let pwd = req.body.pwd;
-  let date = req.body.date;
-  let info = req.body.info;
-  let email = req.body.email;
-
-  let msg = new UserModel({
-    account: account,
-    name: name,
-    pwd: pwd,
-    date: date,
-    email: email,
-    info: info,
-    manager: false,
-  });
-  msg.save()
-    .then(doc => {
-      console.log(doc)
-    })
-    .catch(err => {
-      console.error(err)
-    });
-    res.redirect('/login');
-});
 
 router.get('/fund', function (req, res, next) {
     if (req.session.isLogin != 1) { //if not login
