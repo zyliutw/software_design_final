@@ -144,6 +144,27 @@ ol {
 -----------------------*/
 
 /* buttons */
+.check-bt{
+	position: relative;
+	display: inline;
+	padding: 10px;
+	
+	
+}
+.little-btn {
+	display: inline-block;
+	text-align: center;
+	font-size: 15px;
+	color: #131313;
+	padding: 16px 30px;
+	min-width: 153px;
+	border-radius: 50px;
+	font-weight: 500;
+	border: none;
+	background: #ffb320;
+	cursor: pointer;
+}
+
 .site-btn {
 	display: inline-block;
 	text-align: center;
